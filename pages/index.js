@@ -80,18 +80,18 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-purple-100 p-2 flex flex-col items-center text-gray-900">
-      <h1 className="text-3xl font-extrabold text-gray-800 mt-1 mb-2">
+    <div className="min-h-screen bg-white dark:bg-gray-950 p-2 flex flex-col items-center text-gray-900 dark:text-gray-100">
+      <h1 className="text-2xl font-mono text-black dark:text-white mt-1 mb-1 pt-2">
         Instagram Grid Preview
       </h1>
-      <div className="w-full max-w-md bg-white p-6 rounded-xl shadow-lg">
+      <div className="w-full max-w-md bg-white dark:bg-gray-950 p-6 rounded-xl shadow-lg">
         <div className="relative mb-4">
           <input
             type="text"
             placeholder="Enter Instagram username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-3 pl-10 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-3 pl-10 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 font-mono dark:bg-gray-900 dark:text-white"
           />
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
@@ -100,13 +100,13 @@ export default function Home() {
         )}
         <button
           onClick={fetchPosts}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold shadow-md transition duration-300 flex items-center justify-center"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg  shadow-md transition duration-300 flex items-center justify-center font-mono dark:bg-blue-700 dark:hover:bg-blue-800"
         >
           <FaSearch className="mr-2" />
           Load Posts
         </button>
         <div className="mt-4">
-          <label className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold shadow-md transition duration-300 cursor-pointer">
+          <label className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg  shadow-md transition duration-300 cursor-pointer font-mono dark:bg-blue-700 dark:hover:bg-blue-800">
             <FaUpload className="mr-2" />
             Upload Images
             <input
@@ -121,11 +121,13 @@ export default function Home() {
 
         {/* Show the ad prompt if the user has uploaded 3 images */}
         {!canUpload && (
-          <div className="mt-4 p-4 bg-yellow-100 rounded-md text-center">
-            <p className="text-lg">Please watch an ad to upload more images.</p>
+          <div className="mt-4 p-4 bg-yellow-200 dark:bg-red-600 rounded-md text-center">
+            <p className="text-lg font-mono text-balance">
+              Please watch an ad to upload 3 more images
+            </p>
             <button
               onClick={watchAd}
-              className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+              className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg  font-mono dark:bg-blue-700 w-full"
             >
               Watch Ad
             </button>
@@ -158,9 +160,9 @@ export default function Home() {
                         {showDelete === img.id && (
                           <button
                             onClick={() => handleDelete(img.id)}
-                            className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-red-500 hover:text-white opacity-100 transition-opacity"
+                            className="absolute top-2 right-2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-red-500 hover:text-white opacity-100 transition-opacity"
                           >
-                            <FaTrashAlt />
+                            <FaTrashAlt className="dark:text-black" />
                           </button>
                         )}
                       </div>
