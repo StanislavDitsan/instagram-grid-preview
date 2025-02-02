@@ -11,15 +11,22 @@ export default function Home() {
   const [canUpload, setCanUpload] = useState(true); // State to control if user can upload more images
   const [uploadCount, setUploadCount] = useState(0); // Track number of uploaded images
   const [errorMessage, setErrorMessage] = useState(""); // Track error message
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
 
   const fetchPosts = async () => {
     if (!username.trim()) {
-      setErrorMessage("Please enter an Instagram username!");
+      setErrorMessage("Please enter an Instagram username!"); // Show warning if username is empty
+      setShowModal(true); // Show modal with warning message
       return;
     }
 
     try {
       const response = await axios.get(`/api/fetchPosts?username=${username}`);
+      if (response.data.length === 0) {
+        setErrorMessage("Username not found, please check the username."); // Show warning if username is invalid
+        setShowModal(true);
+        return;
+      }
       const fetchedPosts = response.data.map((post) => ({
         id: post.id,
         imageUrl: post.imageUrl || "",
@@ -27,8 +34,10 @@ export default function Home() {
       setPosts(fetchedPosts.slice(0, 9));
       setErrorMessage(""); // Clear error message if successful
     } catch (error) {
-      console.error("Failed to fetch posts:", error);
-      setErrorMessage("Failed to fetch posts. Please try again later.");
+      setErrorMessage(
+        "It seems the username is incorrect. Please double-check and try again."
+      ); // Show general error message for server errors
+      setShowModal(true); // Show modal for error
     }
   };
 
@@ -79,6 +88,10 @@ export default function Home() {
     setUploadCount(0); // Reset upload count after ad
   };
 
+  const closeModal = () => {
+    setShowModal(false); // Close the error modal
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 p-2 flex flex-col items-center text-gray-900 dark:text-gray-100">
       <h1 className="text-2xl font-mono text-black dark:text-white mt-1 mb-1 pt-2">
@@ -100,13 +113,13 @@ export default function Home() {
         )}
         <button
           onClick={fetchPosts}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg  shadow-md transition duration-300 flex items-center justify-center font-mono dark:bg-blue-700 dark:hover:bg-blue-800"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg shadow-md transition duration-300 flex items-center justify-center font-mono dark:bg-blue-700 dark:hover:bg-blue-800"
         >
           <FaSearch className="mr-2" />
           Load Posts
         </button>
         <div className="mt-4">
-          <label className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg  shadow-md transition duration-300 cursor-pointer font-mono dark:bg-blue-700 dark:hover:bg-blue-800">
+          <label className="flex items-center justify-center w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg shadow-md transition duration-300 cursor-pointer font-mono dark:bg-blue-700 dark:hover:bg-blue-800">
             <FaUpload className="mr-2" />
             Upload Images
             <input
@@ -127,7 +140,7 @@ export default function Home() {
             </p>
             <button
               onClick={watchAd}
-              className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg  font-mono dark:bg-blue-700 w-full"
+              className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-mono dark:bg-blue-700 w-full"
             >
               Watch Ad
             </button>
@@ -186,6 +199,21 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* Modal for error */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-80 text-center">
+            <p className="text-red-500 mb-4 font-mono">{errorMessage}</p>
+            <button
+              onClick={closeModal}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-mono dark:bg-blue-700"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
