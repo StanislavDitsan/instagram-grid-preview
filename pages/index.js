@@ -219,7 +219,7 @@ export default function Home() {
         </DragDropContext>
       </div>
       <a
-        className="text-sm"
+        className="text-sm mt-3"
         href="https://digitelle-studios.com/"
         target="_blank"
       >
