@@ -152,7 +152,7 @@ export default function Home() {
           </label>
           {isLoading && <Spinner />} {/* Display spinner while loading */}
         </div>
-        {uploadCount >= 3 && (
+        {/* {uploadCount >= 3 && (
           <div className="mt-4 p-4 bg-yellow-200 dark:bg-red-600 rounded-md text-center">
             <p className="text-lg font-mono text-balance">
               You have uploaded 3 images. Please watch an ad to upload more.
@@ -164,7 +164,7 @@ export default function Home() {
               Watch Ad
             </button>
           </div>
-        )}
+        )} */}
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="uploadedImages" direction="horizontal">
             {(provided) => (
